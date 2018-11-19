@@ -1,31 +1,47 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, ComponentFixture, async } from '@angular/core/testing';
+
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './components/header/header.component';
+import { SearchResultsComponent } from './components/search-results/search-results.component';
+import { WatchlistComponent } from './components/watchlist/watchlist.component';
+import { SearchFilterComponent } from './components/search-filter/search-filter.component';
 
 describe('AppComponent', () => {
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+  let hostElement: HTMLElement;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppComponent,
+        HeaderComponent,
+        SearchFilterComponent,
+        SearchResultsComponent,
+        WatchlistComponent
       ],
     }).compileComponents();
+
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.debugElement.componentInstance;
+    hostElement = fixture.debugElement.nativeElement;
+    
+    fixture.detectChanges();
   }));
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
-  it(`should have as title 'movie-search'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('movie-search');
+  it(`should have a child component 'app-header'`, () => {
+    expect(hostElement.querySelector('app-header')).not.toBe(null);
   });
 
-  it('should render title in a h1 tag', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to movie-search!');
+  it(`should have a child component 'app-search-results'`, () => {
+    expect(hostElement.querySelector('app-search-results')).not.toBe(null);
+  });
+
+  it(`should have a child component 'app-watchlist'`, () => {
+    expect(hostElement.querySelector('app-watchlist')).not.toBe(null);
   });
 });
