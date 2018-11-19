@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -20,6 +22,8 @@ import { MovieComponent } from './components/movie/movie.component';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    HttpClientModule,
     NgbDropdownModule
   ],
   providers: [],
