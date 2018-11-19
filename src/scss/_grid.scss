@@ -1,0 +1,42 @@
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+
+  .cell {
+    width: 100%;
+    flex-shrink: 0;
+  }
+
+  .cell-0 {
+    width: 0;
+    overflow: hidden;
+  }
+
+  @for $i from 1 through $grid-columns {
+
+    .cell-#{$i} {
+      width: #{$i * 100 / $grid-columns * 1%};
+    }
+  }
+
+  @media (min-width: $grid-tablet-breakpoint) {
+
+    @for $i from 1 through $grid-columns {
+
+      .cell-#{$i}-tablet {
+        width: #{$i * 100 / $grid-columns * 1%};
+      }
+    }
+  }
+
+  @media (min-width: $grid-desktop-breakpoint) {
+
+    @for $i from 1 through $grid-columns {
+
+      .cell-#{$i}-desktop {
+        width: #{$i * 100 / $grid-columns * 1%};
+      }
+    }
+  }
+}
