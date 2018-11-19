@@ -1,6 +1,7 @@
-import { FilterService } from './../../services/filter.service';
 import { Component, OnInit } from '@angular/core';
 
+import { MovieService } from 'src/app/services/movie.service';
+import { FilterService } from './../../services/filter.service';
 import { Query } from './../../models/query.model';
 
 @Component({
@@ -13,7 +14,7 @@ export class SearchFilterComponent implements OnInit {
   years: string[];
   query: Query = new Query();
   
-  constructor(private filterService: FilterService) { }
+  constructor(private filterService: FilterService, private movieService: MovieService) { }
 
   ngOnInit(): void {
     this.getTypes();
@@ -33,7 +34,11 @@ export class SearchFilterComponent implements OnInit {
   }
 
   search(): void {
-    // this.movieService.search(this.query);
+    this.movieService.search(this.query);
+  }
+
+  onInput(): void {
+    this.search();
   }
 
   onSelectType(type: string) {

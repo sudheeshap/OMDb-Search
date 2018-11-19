@@ -12,4 +12,4 @@
       <button class="dropdown-item" *ngFor="let year of years" (click)="onSelectYear(year)">{{year}}</button>
     </div>
   </div>
-  <input type="text" class="form-control form-control-sm input-title" [(ngModel)]="query.title" (input)="search()" />
+  <input type="text" class="form-control form-control-sm input-title" [(ngModel)]="query.title" (input)="onInput()" />

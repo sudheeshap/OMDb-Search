@@ -1,6 +1,6 @@
 <div>Search results</div>
 <div class="grid results">
-    <app-movie></app-movie>
-    <div class="cell">Result2</div>
-    <div class="cell">Result3</div>
+    <ng-container *ngFor="let movie of movies$ | async">
+        <app-movie class="cell movie search-result-item" [movie]='movie'></app-movie>
+    </ng-container>
 </div>
