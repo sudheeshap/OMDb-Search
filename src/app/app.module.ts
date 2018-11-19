@@ -7,6 +7,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { SearchResultsComponent } from './components/search-results/search-results.component';
 import { WatchlistComponent } from './components/watchlist/watchlist.component';
 import { SearchFilterComponent } from './components/search-filter/search-filter.component';
+import { MovieComponent } from './components/movie/movie.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { SearchFilterComponent } from './components/search-filter/search-filter.
     HeaderComponent,
     SearchResultsComponent,
     WatchlistComponent,
-    SearchFilterComponent
+    SearchFilterComponent,
+    MovieComponent
   ],
   imports: [
     BrowserModule,
