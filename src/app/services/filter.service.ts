@@ -11,10 +11,16 @@ export class FilterService {
 
   constructor() { }
 
+  /**
+   * Returns 'types' as sequence of strings
+   */
   getTypes(): Observable<string[]> {
     return of(this.types);
   }
 
+  /**
+   * Returns 'years' as sequence of strings
+   */
   getYears(): Observable<string[]> {
     return of(this.years);
   }
