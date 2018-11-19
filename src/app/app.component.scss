@@ -2,3 +2,10 @@
   max-width: 900px;
   margin: 30px auto 0 auto;
 }
+
+@media (min-width: 1200px) {
+
+  .page-content {
+    max-width: 1000px;
+  }
+}

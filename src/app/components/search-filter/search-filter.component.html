@@ -2,12 +2,14 @@
     <button class="btn btn-sm" id="typeDropdown" ngbDropdownToggle>{{'Type'}}</button>
     <div ngbDropdownMenu aria-labelledby="typeDropdown">
       <button class="dropdown-item">Select type</button>
+      <button class="dropdown-item" *ngFor="let type of types">{{type}}</button>
     </div>
   </div>
   <div ngbDropdown>
     <button class="btn btn-sm" id="yearDropdown" ngbDropdownToggle>{{'Year'}}</button>
     <div ngbDropdownMenu aria-labelledby="yearDropdown">
       <button class="dropdown-item">Select year</button>
+      <button class="dropdown-item" *ngFor="let year of years">{{year}}</button>
     </div>
   </div>
   <input type="text" class="form-control form-control-sm" name="title" />

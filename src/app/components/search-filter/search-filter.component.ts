@@ -1,3 +1,4 @@
+import { FilterService } from './../../services/filter.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,10 +7,27 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search-filter.component.scss']
 })
 export class SearchFilterComponent implements OnInit {
+  
+  types: string[];
+  years: string[];
+  
+  constructor(private filterService: FilterService) { }
 
-  constructor() { }
+  ngOnInit(): void {
+    this.getTypes();
+    this.getYears();
+  }
 
-  ngOnInit() {
+  getTypes(): void {
+    this.filterService.getTypes()
+      .subscribe(types => this.types = types)
+    ;
+  }
+
+  getYears(): void {
+    this.filterService.getYears()
+      .subscribe(years => this.years = years)
+    ;
   }
 
 }
