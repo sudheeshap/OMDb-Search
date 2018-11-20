@@ -3,8 +3,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
 
 import { AppComponent } from './app.component';
+import { environment } from '../environments/environment';
 import { HeaderComponent } from './components/header/header.component';
 import { SearchResultsComponent } from './components/search-results/search-results.component';
 import { WatchlistComponent } from './components/watchlist/watchlist.component';
@@ -24,6 +27,10 @@ import { MovieComponent } from './components/movie/movie.component';
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebase, 'movie-search'),
+    // AngularFirestoreModule,
+    // AngularFireStorageModule,
+    AngularFireDatabaseModule,
     NgbDropdownModule
   ],
   providers: [],

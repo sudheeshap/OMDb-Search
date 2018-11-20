@@ -1,3 +1,4 @@
+import { FirebaseService } from './firebase.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
@@ -5,6 +6,8 @@ import { Observable, Subject, of } from 'rxjs';
 
 import { Query } from './../models/query.model';
 import { Movie } from 'src/app/models/movie.model';
+import { UserService } from './user.service';
+import { AngularFireList } from '@angular/fire/database';
 
 
 @Injectable({
@@ -14,10 +17,15 @@ export class MovieService {
   watchList: Movie[] = [];
   private omdbApiUrl:string = 'http://www.omdbapi.com/?i=tt3896198&apikey=3cc051ad';  // OMDb api URL
   private searchTerms: Subject<Query> = new Subject<Query>();
-  private watchListSubject: Subject<Movie[]> = new Subject<Movie[]>();
-  watchList$: Observable<Movie[]> = this.watchListSubject.asObservable();
+  // private watchListSubject: Subject<Movie[]> = new Subject<Movie[]>();
+  // watchList$: Observable<Movie[]> = this.watchListSubject.asObservable();
     
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private firebaseService: FirebaseService,
+    private userService: UserService) {
+
+    }
 
   search(query: Query) {
     console.log(query);
@@ -39,7 +47,13 @@ export class MovieService {
   }
 
   getWatchList() {
-    return this.watchList$;
+    const _watchList: AngularFireList<Movie> = this.firebaseService.getDatabase()
+      .list<Movie>(`${this.userService.getFirebaseUserKey()}/watchlist`)
+    ;
+    
+    _watchList.valueChanges().subscribe((movies) => this.watchList = movies);
+
+    return _watchList.valueChanges();
   }
 
   searchMovies(query: Query): Observable<Movie[]> {
@@ -70,13 +84,31 @@ export class MovieService {
       );
   }
 
+  saveWatchList() {
+    this.firebaseService.setValue(this.userService.getFirebaseUserKey(), 'watchlist', this.watchList);
+  }
+
   addMovie(movie) {
     this.watchList.push(movie);
-    this.watchListSubject.next(this.watchList);
+    // this.watchListSubject.next(this.watchList);
+    this.saveWatchList();
+
+    // const itemsRef = db.list('items');
+    // // to get a key, check the Example app below
+    // itemsRef.set('key-of-some-data', { size: newSize });
+
+    // // this.firebaseService.getDatabase()
+    // //     .list(`/users/${this.sessionUser.id}`).valueChanges()
+    // //     .subscribe((res => {
+    // //       console.log(res);
+    // //       return res;
+    // //     }))
+    // //   ;
   }
 
   removeMovie(movie: Movie) {
     this.watchList = this.watchList.filter((m: Movie) => m.imdbID !== movie.imdbID);
-    this.watchListSubject.next(this.watchList);
+    // this.watchListSubject.next(this.watchList);
+    this.saveWatchList();
   }
 }
