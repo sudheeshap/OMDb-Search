@@ -1,21 +1,21 @@
-import { Movie } from 'src/app/models/movie.model';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Observable, Subject, of } from 'rxjs';
 
 import { Query } from './../models/query.model';
+import { Movie } from 'src/app/models/movie.model';
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
 
 @Injectable({
   providedIn: 'root'
 })
 export class MovieService {
-  private omdbApiUrl = 'http://www.omdbapi.com/?i=tt3896198&apikey=3cc051ad';  // OMDb api URL
-  private searchTerms = new Subject<Query>();
+  watchList: Movie[] = [];
+  private omdbApiUrl:string = 'http://www.omdbapi.com/?i=tt3896198&apikey=3cc051ad';  // OMDb api URL
+  private searchTerms: Subject<Query> = new Subject<Query>();
+  private watchListSubject: Subject<Movie[]> = new Subject<Movie[]>();
+  watchList$: Observable<Movie[]> = this.watchListSubject.asObservable();
     
   constructor(private http: HttpClient) { }
 
@@ -36,6 +36,10 @@ export class MovieService {
       // switch to new search observable each time the term changes
       switchMap((query: Query) => this.searchMovies(query)),
     );
+  }
+
+  getWatchList() {
+    return this.watchList$;
   }
 
   searchMovies(query: Query): Observable<Movie[]> {
@@ -64,5 +68,15 @@ export class MovieService {
           map(res => res['Search'])
           // catchError(this.handleError<Movie[]>('searchHeroes', []))
       );
+  }
+
+  addMovie(movie) {
+    this.watchList.push(movie);
+    this.watchListSubject.next(this.watchList);
+  }
+
+  removeMovie(movie: Movie) {
+    this.watchList = this.watchList.filter((m: Movie) => m.imdbID !== movie.imdbID);
+    this.watchListSubject.next(this.watchList);
   }
 }

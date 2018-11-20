@@ -1,0 +1,9 @@
+@import "../../../scss/main";
+
+:host {
+
+  @media (min-width: $grid-tablet-breakpoint) {
+    padding-left: 7px;
+    box-sizing: border-box;
+  }
+}

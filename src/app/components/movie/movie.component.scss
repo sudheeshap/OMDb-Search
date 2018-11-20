@@ -1,0 +1,51 @@
+@import "../../../scss/main";
+
+:host {
+  
+  &.movie {
+    height: 100px;
+    margin-bottom: 8px;
+
+    &.search-result-item {
+    
+      .container-remove {
+        display: none;
+      }
+    }
+    
+    &.watchlist-item {
+      
+      .container-listed {
+        display: none;
+      }
+    }
+
+    .wrapper {
+      background-color: $color-white;
+      box-shadow: 1px 0px 5px 0px rgba(197, 197, 197, 0.75);
+      height: 100px;
+      margin-right: 8px;
+    }
+  }
+
+  .btn {
+    text-transform: uppercase;
+  }
+
+  .thumb {
+    max-width: 120px;
+    max-height: 150px;
+
+    img {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  .body {
+
+    > div {
+      padding: 5px;
+    }
+  }
+}

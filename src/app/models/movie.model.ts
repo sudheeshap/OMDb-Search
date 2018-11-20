@@ -4,4 +4,5 @@ export interface Movie {
   Type: string;
   Year: string;
   imdbID: string;
+  isListed: boolean;
 }

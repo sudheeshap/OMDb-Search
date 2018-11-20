@@ -1,6 +1,6 @@
 <div>Watchlist</div>
 <div class="grid watchlist">
-  <div class="cell">Item1</div>
-  <div class="cell">Item2</div>
-  <div class="cell">Item3</div>
+  <ng-container *ngFor="let movie of movies$ | async">
+    <app-movie class="cell movie watchlist-item" [movie]='movie'></app-movie>
+  </ng-container>
 </div>
