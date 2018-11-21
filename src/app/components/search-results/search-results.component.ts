@@ -19,7 +19,7 @@ export class SearchResultsComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.movieService.searchListSubscribe.unsubscribe();
+    this.movieService.searchListSubscription.unsubscribe();
   }
 
 }

@@ -5,12 +5,12 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyAF5sD3HmJzYSzKot7RvPUb4uUZcX55p9s",
-    authDomain: "movie-search-e3882.firebaseapp.com",
-    databaseURL: "https://movie-search-e3882.firebaseio.com",
-    projectId: "movie-search-e3882",
-    storageBucket: "movie-search-e3882.appspot.com",
-    messagingSenderId: "903093689"
+    apiKey: "AIzaSyCHc75We6FxbwC_WFRE1uZRDRsPAFEyiuY",
+    authDomain: "movie-search-test.firebaseapp.com",
+    databaseURL: "https://movie-search-test.firebaseio.com",
+    projectId: "movie-search-test",
+    storageBucket: "movie-search-test.appspot.com",
+    messagingSenderId: "1032675212503"
   }
 };
 
