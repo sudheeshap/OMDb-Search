@@ -1,0 +1,73 @@
+{
+  "configVersion": 1,
+  "index": "https://sudheeshap.github.io/OMDb-Search/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "urls": [
+        "https://sudheeshap.github.io/OMDb-Search/favicon.ico",
+        "https://sudheeshap.github.io/OMDb-Search/index.html",
+        "https://sudheeshap.github.io/OMDb-Search/main.18a9eefa764e6b2a7eb3.js",
+        "https://sudheeshap.github.io/OMDb-Search/polyfills.c6871e56cb80756a5498.js",
+        "https://sudheeshap.github.io/OMDb-Search/runtime.ec2944dd8b20ec099bf3.js",
+        "https://sudheeshap.github.io/OMDb-Search/styles.9f767b6bfcb0dd78afa9.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "urls": [
+        "https://sudheeshap.github.io/OMDb-Search/assets/icons/icon-128x128.png",
+        "https://sudheeshap.github.io/OMDb-Search/assets/icons/icon-144x144.png",
+        "https://sudheeshap.github.io/OMDb-Search/assets/icons/icon-152x152.png",
+        "https://sudheeshap.github.io/OMDb-Search/assets/icons/icon-192x192.png",
+        "https://sudheeshap.github.io/OMDb-Search/assets/icons/icon-384x384.png",
+        "https://sudheeshap.github.io/OMDb-Search/assets/icons/icon-512x512.png",
+        "https://sudheeshap.github.io/OMDb-Search/assets/icons/icon-72x72.png",
+        "https://sudheeshap.github.io/OMDb-Search/assets/icons/icon-96x96.png",
+        "https://sudheeshap.github.io/OMDb-Search/assets/img/logo-white.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "https://sudheeshap.github.io/OMDb-Search/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
+    "https://sudheeshap.github.io/OMDb-Search/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
+    "https://sudheeshap.github.io/OMDb-Search/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
+    "https://sudheeshap.github.io/OMDb-Search/assets/icons/icon-192x192.png": "1abd80d431a237a853ce38147d8c63752f10933b",
+    "https://sudheeshap.github.io/OMDb-Search/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
+    "https://sudheeshap.github.io/OMDb-Search/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
+    "https://sudheeshap.github.io/OMDb-Search/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
+    "https://sudheeshap.github.io/OMDb-Search/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
+    "https://sudheeshap.github.io/OMDb-Search/assets/img/logo-white.png": "ce629870e2c95bb9f2540e23ee4b030cc40a681d",
+    "https://sudheeshap.github.io/OMDb-Search/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
+    "https://sudheeshap.github.io/OMDb-Search/index.html": "a35f3441eff27e8fb275c3d660788fb3c04264c5",
+    "https://sudheeshap.github.io/OMDb-Search/main.18a9eefa764e6b2a7eb3.js": "39989d04bc9eb1e6f03660cce7c78a6a0cf02784",
+    "https://sudheeshap.github.io/OMDb-Search/polyfills.c6871e56cb80756a5498.js": "ce68d153e9b9b6d26b625069c0ee99ae09c6f255",
+    "https://sudheeshap.github.io/OMDb-Search/runtime.ec2944dd8b20ec099bf3.js": "b62956c2192bfe5516d6374e753773901ed50ec5",
+    "https://sudheeshap.github.io/OMDb-Search/styles.9f767b6bfcb0dd78afa9.css": "204fd5e2fdcc52a5f3ba8f59766d56e8293735e8"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ]
+}
