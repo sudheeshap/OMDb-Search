@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 
 import { MovieService } from 'src/app/services/movie.service';
@@ -13,6 +14,8 @@ export class SearchFilterComponent implements OnInit {
   types: string[];
   years: string[];
   query: Query = new Query();
+  typeSubscription: Subscription;
+  yearSubscription: Subscription;
   
   constructor(private filterService: FilterService, private movieService: MovieService) { }
 
@@ -21,14 +24,19 @@ export class SearchFilterComponent implements OnInit {
     this.getYears();
   }
 
+  ngOnDestroy() {
+    this.typeSubscription.unsubscribe();
+    this.yearSubscription.unsubscribe();
+  }
+
   getTypes(): void {
-    this.filterService.getTypes()
+    this.typeSubscription = this.filterService.getTypes()
       .subscribe(types => this.types = types)
     ;
   }
 
   getYears(): void {
-    this.filterService.getYears()
+    this.yearSubscription = this.filterService.getYears()
       .subscribe(years => this.years = years)
     ;
   }
