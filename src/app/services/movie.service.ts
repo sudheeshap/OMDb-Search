@@ -17,13 +17,14 @@ export class MovieService {
   watchList: Movie[] = [];
   private omdbApiUrl:string = 'http://www.omdbapi.com/?i=tt3896198&apikey=3cc051ad';  // OMDb api URL
   private searchTerms: Subject<Query> = new Subject<Query>();
-  // private watchListSubject: Subject<Movie[]> = new Subject<Movie[]>();
-  // watchList$: Observable<Movie[]> = this.watchListSubject.asObservable();
+  private watchListSubject: Subject<Movie[]> = new Subject<Movie[]>();
+  watchList$: Observable<Movie[]> = this.watchListSubject.asObservable();
   // private moviesSubject: Subject<Movie[]> = new Subject<Movie[]>();
   private moviesSubject: Subject<Movie[]> = new Subject<Movie[]>();
   movies$: Observable<Movie[]> = this.moviesSubject.asObservable();
   movies: Movie[] = [];
-  searchListSubscribe: Subscription;
+  searchListSubscription: Subscription;
+  watchListSubscription: Subscription;
     
   constructor(
     private http: HttpClient,
@@ -37,9 +38,22 @@ export class MovieService {
     this.searchTerms.next(query);
   }
 
+  getSyncedSearchList(movies: Movie[]): Movie[] {
+    this.watchList.forEach((movie: Movie) => {
+      let index: number = movies.findIndex(m => m.imdbID === movie.imdbID);
+      
+      if (index > -1) {
+        // Set as already listed
+        movies[index].isListed = true;
+      }
+    });
+
+    return movies;
+  }
+
   getSearchList(): Observable<Movie[]> {
 
-    this.searchListSubscribe = this.searchTerms.pipe(
+    this.searchListSubscription = this.searchTerms.pipe(
       // wait 300ms after each keystroke before considering the term
       debounceTime(300),
 
@@ -48,9 +62,9 @@ export class MovieService {
 
       // switch to new search observable each time the term changes
       switchMap((query: Query) => this.searchMovies(query)),
-    ).subscribe((movies) => {
-      
-      this.movies = movies;
+    ).subscribe((movies: Movie[] = []) => {
+      console.log('Searchlist: ', movies);
+      this.movies = this.getSyncedSearchList(movies);
       this.moviesSubject.next(this.movies);
       return this.movies;
     });
@@ -70,10 +84,18 @@ export class MovieService {
   // }
 
   getWatchList() {
-    return this.firebaseService.getDatabase()
-      .list<Movie>(`${this.userService.getFirebaseUserKey()}/watchlist`)
-      .valueChanges()
+    // console.log(this.firebaseService.getDatabase().list<Movie>(`${this.userService.getFirebaseUserKey()}/watchlist`));
+    this.watchListSubscription = this.firebaseService.getDatabase()
+      .list<Movie>(`${this.userService.getFirebaseUserKey()}/watchlist`).valueChanges()
+      .subscribe((movies: Movie[] = []) => {
+        console.log(movies);
+        this.watchList = movies;
+        this.watchListSubject.next(this.watchList);
+        return this.watchList;
+      })
     ;
+
+    return this.watchList$;
   }
 
   searchMovies(query: Query): Observable<Movie[]> {
