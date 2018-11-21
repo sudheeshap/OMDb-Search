@@ -19,6 +19,7 @@ export class MovieService {
   private searchTerms: Subject<Query> = new Subject<Query>();
   private watchListSubject: Subject<Movie[]> = new Subject<Movie[]>();
   watchList$: Observable<Movie[]> = this.watchListSubject.asObservable();
+  
   // private moviesSubject: Subject<Movie[]> = new Subject<Movie[]>();
   private moviesSubject: Subject<Movie[]> = new Subject<Movie[]>();
   movies$: Observable<Movie[]> = this.moviesSubject.asObservable();
