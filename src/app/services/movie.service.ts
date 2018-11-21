@@ -19,7 +19,7 @@ export class MovieService {
   private searchTerms: Subject<Query> = new Subject<Query>();
   private watchListSubject: Subject<Movie[]> = new Subject<Movie[]>();
   watchList$: Observable<Movie[]> = this.watchListSubject.asObservable();
-  
+
   // private moviesSubject: Subject<Movie[]> = new Subject<Movie[]>();
   private moviesSubject: Subject<Movie[]> = new Subject<Movie[]>();
   movies$: Observable<Movie[]> = this.moviesSubject.asObservable();
@@ -64,6 +64,8 @@ export class MovieService {
       // switch to new search observable each time the term changes
       switchMap((query: Query) => this.searchMovies(query)),
     ).subscribe((movies: Movie[] = []) => {
+      console.log(movies);
+      
       this.movies = this.getSyncedSearchList(movies);
       this.moviesSubject.next(this.movies);
       return this.movies;

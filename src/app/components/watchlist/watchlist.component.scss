@@ -2,6 +2,20 @@
 
 :host {
 
+  .watchlist {
+    margin-top: 10px;
+    min-height: 400px;
+    // box-shadow: inset 1px 0px 5px 0px rgba(197, 197, 197, 0.75);
+  }
+
+  .empty-state {
+    
+    .icon {
+      font-size: 60px;
+      margin-bottom: 30px;
+    }
+  }
+
   @media (min-width: $grid-tablet-breakpoint) {
     padding-left: 7px;
     box-sizing: border-box;

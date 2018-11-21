@@ -1,5 +1,9 @@
-<div>WatchlistXX</div>
+<div>Watchlist</div>
 <div class="grid watchlist">
+  <div *ngIf="(movies$ | async)?.length === 0" class="empty-state">
+    <div class="icon fa fa-bookmark"></div>
+    <div class="description">Your watchlist is empty.</div>
+  </div>
   <ng-container *ngFor="let movie of movies$ | async">
     <app-movie class="cell movie watchlist-item" [movie]='movie'></app-movie>
   </ng-container>
