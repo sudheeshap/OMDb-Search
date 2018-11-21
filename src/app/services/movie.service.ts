@@ -63,7 +63,6 @@ export class MovieService {
       // switch to new search observable each time the term changes
       switchMap((query: Query) => this.searchMovies(query)),
     ).subscribe((movies: Movie[] = []) => {
-      console.log('Searchlist: ', movies);
       this.movies = this.getSyncedSearchList(movies);
       this.moviesSubject.next(this.movies);
       return this.movies;
@@ -88,7 +87,6 @@ export class MovieService {
     this.watchListSubscription = this.firebaseService.getDatabase()
       .list<Movie>(`${this.userService.getFirebaseUserKey()}/watchlist`).valueChanges()
       .subscribe((movies: Movie[] = []) => {
-        console.log(movies);
         this.watchList = movies;
         this.watchListSubject.next(this.watchList);
         return this.watchList;

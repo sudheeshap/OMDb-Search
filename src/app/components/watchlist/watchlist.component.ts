@@ -25,4 +25,8 @@ export class WatchlistComponent implements OnInit {
     // this.movies$ = this.db.collection('items').valueChanges();
     this.movies$ = this.movieService.getWatchList();
   }
+
+  ngOnDestroy() {
+    this.movieService.watchListSubscription.unsubscribe();
+  }
 }
