@@ -34,7 +34,7 @@ export class UserService {
     } else {
       this.users = this.firebaseService.getDatabase().list('/users');
       const newRef: DatabaseReference = this.users.push(<User>{
-        watchlist: [{ imdbID: '' }] 
+        watchlist: [] 
       });
 
       if (newRef.key) {
