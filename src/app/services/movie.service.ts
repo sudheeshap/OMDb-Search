@@ -15,7 +15,7 @@ import { AngularFireList } from '@angular/fire/database';
 })
 export class MovieService {
   watchList: Movie[] = [];
-  private omdbApiUrl:string = 'http://www.omdbapi.com/?i=tt3896198&apikey=3cc051ad';  // OMDb api URL
+  private omdbApiUrl:string = 'https://www.omdbapi.com/?i=tt3896198&apikey=3cc051ad';  // OMDb api URL
   private searchTerms: Subject<Query> = new Subject<Query>();
   private watchListSubject: Subject<Movie[]> = new Subject<Movie[]>();
   watchList$: Observable<Movie[]> = this.watchListSubject.asObservable();
