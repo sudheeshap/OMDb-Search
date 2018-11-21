@@ -2,7 +2,7 @@ import { FirebaseService } from './firebase.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { Observable, Subject, of } from 'rxjs';
+import { Observable, Subject, of, Subscriber, Subscription } from 'rxjs';
 
 import { Query } from './../models/query.model';
 import { Movie } from 'src/app/models/movie.model';
@@ -19,6 +19,11 @@ export class MovieService {
   private searchTerms: Subject<Query> = new Subject<Query>();
   // private watchListSubject: Subject<Movie[]> = new Subject<Movie[]>();
   // watchList$: Observable<Movie[]> = this.watchListSubject.asObservable();
+  // private moviesSubject: Subject<Movie[]> = new Subject<Movie[]>();
+  private moviesSubject: Subject<Movie[]> = new Subject<Movie[]>();
+  movies$: Observable<Movie[]> = this.moviesSubject.asObservable();
+  movies: Movie[] = [];
+  searchListSubscribe: Subscription;
     
   constructor(
     private http: HttpClient,
@@ -34,7 +39,7 @@ export class MovieService {
 
   getSearchList(): Observable<Movie[]> {
 
-    return this.searchTerms.pipe(
+    this.searchListSubscribe = this.searchTerms.pipe(
       // wait 300ms after each keystroke before considering the term
       debounceTime(300),
 
@@ -43,17 +48,32 @@ export class MovieService {
 
       // switch to new search observable each time the term changes
       switchMap((query: Query) => this.searchMovies(query)),
-    );
+    ).subscribe((movies) => {
+      
+      this.movies = movies;
+      this.moviesSubject.next(this.movies);
+      return this.movies;
+    });
+
+    // return this.movies$.pipe(map(movies => {console.log(movies);return movies}));
+    return this.movies$;
   }
 
-  getWatchList() {
-    const _watchList: AngularFireList<Movie> = this.firebaseService.getDatabase()
-      .list<Movie>(`${this.userService.getFirebaseUserKey()}/watchlist`)
-    ;
+  // getWatchList() {
+  //   const _watchList: AngularFireList<Movie> = this.firebaseService.getDatabase()
+  //     .list<Movie>(`${this.userService.getFirebaseUserKey()}/watchlist`)
+  //   ;
     
-    _watchList.valueChanges().subscribe((movies) => this.watchList = movies);
+  //   _watchList.valueChanges().subscribe((movies) => this.watchList = movies);
 
-    return _watchList.valueChanges();
+  //   return _watchList.valueChanges();
+  // }
+
+  getWatchList() {
+    return this.firebaseService.getDatabase()
+      .list<Movie>(`${this.userService.getFirebaseUserKey()}/watchlist`)
+      .valueChanges()
+    ;
   }
 
   searchMovies(query: Query): Observable<Movie[]> {
@@ -108,7 +128,14 @@ export class MovieService {
 
   removeMovie(movie: Movie) {
     this.watchList = this.watchList.filter((m: Movie) => m.imdbID !== movie.imdbID);
-    // this.watchListSubject.next(this.watchList);
+    let index: number = this.movies.findIndex(m => m.imdbID === movie.imdbID);
+
+    if (index > -1) {
+      // Set as already listed
+      this.movies[index].isListed = false;
+    }    // this.watchListSubject.next(this.watchList);
     this.saveWatchList();
+    // this.movies$. .next(this.watchList);
+    this.moviesSubject.next(this.movies);
   }
 }
