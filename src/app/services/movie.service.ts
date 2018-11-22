@@ -2,7 +2,7 @@ import { FirebaseService } from './firebase.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { Observable, Subject, of, Subscriber, Subscription } from 'rxjs';
+import { Observable, Subject, of, Subscriber, Subscription, BehaviorSubject, ReplaySubject } from 'rxjs';
 
 import { Query } from './../models/query.model';
 import { Movie } from 'src/app/models/movie.model';
@@ -16,7 +16,7 @@ import { AngularFireList } from '@angular/fire/database';
 export class MovieService {
   watchList: Movie[] = [];
   private omdbApiUrl:string = 'https://www.omdbapi.com/?i=tt3896198&apikey=3cc051ad';  // OMDb api URL
-  private searchTerms: Subject<Query> = new Subject<Query>();
+  private searchTerms: BehaviorSubject<Query> = new BehaviorSubject(<Query>{ type: 'initial' });
   private watchListSubject: Subject<Movie[]> = new Subject<Movie[]>();
   watchList$: Observable<Movie[]> = this.watchListSubject.asObservable();
 
@@ -26,6 +26,9 @@ export class MovieService {
   movies: Movie[];
   searchListSubscription: Subscription;
   watchListSubscription: Subscription;
+  totalResultSubject: Subject<number> = new Subject<number>();
+  totalResults$ = this.totalResultSubject.asObservable();
+  private isLoadMoreActive: boolean;
     
   constructor(
     private http: HttpClient,
@@ -36,6 +39,17 @@ export class MovieService {
 
   search(query: Query) {
     console.log(query);
+    this.isLoadMoreActive = false;
+    this.searchTerms.next(query);
+  }
+
+  loadNextPage() {
+    const query: Query = this.searchTerms.getValue();
+    
+    query.page += 1;
+
+    this.isLoadMoreActive = true;
+
     this.searchTerms.next(query);
   }
 
@@ -65,8 +79,15 @@ export class MovieService {
       switchMap((query: Query) => this.searchMovies(query)),
     ).subscribe((movies: Movie[] = []) => {
       console.log(movies);
+      let allMovies: Movie[];
+
+      if (this.isLoadMoreActive) {
+        allMovies = [...(this.movies || []), ...movies];
+      } else {
+        allMovies = movies;
+      }
       
-      this.movies = this.getSyncedSearchList(movies);
+      this.movies = this.getSyncedSearchList(allMovies);
       this.moviesSubject.next(this.movies);
       return this.movies;
     });
@@ -103,7 +124,14 @@ export class MovieService {
     console.log(query);
     let url: string;
 
+    if (query.type === 'initial') {
+      query.type = '';
+      return of();
+    }
+
     if (!query.title || (query.title && query.title.length < 3)) {
+      this.totalResultSubject.next(0);
+
       // if not search term, return empty movie array.
       return of([]);
     } else {
@@ -118,11 +146,19 @@ export class MovieService {
       url = url + `&y=${query.year}`;
     }
 
+    query.page = query.page || 1;
+    
+    url = url + `&page=${query.page}`;
+
     // return this.http.get<Movie[]>(`${this.omdbApiUrl}/?s=${query.title}`).pipe(
       return this.http.get<Movie[]>(url)
         .pipe(
           tap(_ => console.log(`found movies matching "${query.title}"`)),
-          map(res => res['Search'])
+          map(res => {
+            console.log(parseInt(res['totalResults']));
+            this.totalResultSubject.next(parseInt(res['totalResults']));
+            return res['Search'];
+          })
           // catchError(this.handleError<Movie[]>('searchHeroes', []))
       );
   }
@@ -133,20 +169,7 @@ export class MovieService {
 
   addMovie(movie) {
     this.watchList.push(movie);
-    // this.watchListSubject.next(this.watchList);
     this.saveWatchList();
-
-    // const itemsRef = db.list('items');
-    // // to get a key, check the Example app below
-    // itemsRef.set('key-of-some-data', { size: newSize });
-
-    // // this.firebaseService.getDatabase()
-    // //     .list(`/users/${this.sessionUser.id}`).valueChanges()
-    // //     .subscribe((res => {
-    // //       console.log(res);
-    // //       return res;
-    // //     }))
-    // //   ;
   }
 
   removeMovie(movie: Movie) {
@@ -162,7 +185,6 @@ export class MovieService {
 
       this.moviesSubject.next(this.movies);
     }
-
     
     this.saveWatchList();
   }

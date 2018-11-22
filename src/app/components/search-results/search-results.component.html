@@ -13,3 +13,6 @@
     <app-movie class="cell cell-6-tablet movie search-result-item" [movie]='movie'></app-movie>
   </ng-container>
 </div>
+<div *ngIf="totalCount > 10" class="container-load-more">
+    <button class="btn btn-sm btn-light" (click)="onClickLoadMore()">Load more</button>
+</div>
