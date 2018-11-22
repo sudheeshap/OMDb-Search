@@ -7,15 +7,15 @@
       <div class="title">{{movie.Title}}</div>
       <div class="type">{{movie.Year}} - {{movie.Type}}</div>
       <div class="actions">
-        <a href="https://www.imdb.com/title/{{movie.imdbID}}" target="_blank" class="btn btn-sm btn-warning button-link">
+        <a href="https://www.imdb.com/title/{{movie.imdbID}}" target="_blank" class="btn btn-sm btn-warning button-link" title="Goto IMDb movie page">
           <i class="fa fa-link"></i>
           <span>IMDb</span>
         </a>
-        <button class="btn btn-sm btn-success" *ngIf="!movie.isListed" [class.listed]="movie.isListed" (click)="onClickAdd(movie)">
+        <button class="btn btn-sm btn-success" *ngIf="!movie.isListed" [class.listed]="movie.isListed" (click)="onClickAdd(movie)" title="Add to watchlist">
           <div><i class="fa fa-plus"></i> <span>Add</span>
           </div>
         </button>
-        <button class=" btn btn-sm btn-remove btn-danger" *ngIf="movie.isListed" (click)="onClickRemove(movie)">
+        <button class=" btn btn-sm btn-remove btn-danger" *ngIf="movie.isListed" (click)="onClickRemove(movie)" title="Remove from watchlist">
           <span class="container-listed">Listed</span>
           <span class="container-remove"><i class="fa fa-times"></i><span>Remove</span></span>
         </button>

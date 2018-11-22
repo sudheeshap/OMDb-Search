@@ -23,8 +23,11 @@
     }
   }
 
-  @media (min-width: $grid-tablet-breakpoint) {
-    padding-right: 7px;
-    box-sizing: border-box;
+  @media (min-width: $grid-desktop-breakpoint) {
+
+    & {
+      padding-right: 7px;
+      box-sizing: border-box;
+    }
   }
 }

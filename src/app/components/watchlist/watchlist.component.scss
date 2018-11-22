@@ -17,15 +17,12 @@
     }
   }
 
-  @media (min-width: $grid-tablet-breakpoint) {
-    padding-left: 7px;
-    box-sizing: border-box;
-  }
-
   @media (min-width: $grid-desktop-breakpoint) {
 
     & {
       margin-top: 0;
+      padding-left: 7px;
+      box-sizing: border-box;
     }
 
     .watchlist {
