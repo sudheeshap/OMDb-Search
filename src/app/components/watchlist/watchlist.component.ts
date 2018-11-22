@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AngularFireDatabase } from '@angular/fire/database';
 
-
-import { Movie } from './../../models/movie.model';
 import { MovieService } from 'src/app/services/movie.service';
+import { Movie } from 'src/app/models/movie.model';
 
 @Component({
   selector: 'app-watchlist',
@@ -12,17 +10,20 @@ import { MovieService } from 'src/app/services/movie.service';
   styleUrls: ['./watchlist.component.scss']
 })
 export class WatchlistComponent implements OnInit {
-  // movies$: Observable<Movie[]>;
-  movies$: Observable<{}[]>;
+  movies$: Observable<Movie[]>;
 
-  constructor(
-    private movieService: MovieService, private db: AngularFireDatabase) {
-    }
+  constructor(private movieService: MovieService) {}
 
+  /**
+   * @inheritdoc
+   */
   ngOnInit() {
     this.movies$ = this.movieService.getWatchList();
   }
 
+  /**
+   * @inheritdoc
+   */
   ngOnDestroy() {
     this.movieService.watchListSubscription.unsubscribe();
   }

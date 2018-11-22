@@ -103,11 +103,10 @@
     }
   }
 
-@media (min-width: $grid-tablet-breakpoint) {
+  @media (min-width: $grid-tablet-breakpoint) {
 
-  .wrapper {
-    margin-right: 8px;
+    .wrapper {
+      margin-right: 8px;
+    }
   }
-}
-
 }

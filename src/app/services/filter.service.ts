@@ -13,6 +13,7 @@ export class FilterService {
 
   /**
    * Returns 'types' as sequence of strings
+   * @returns {Observable<string[]>}
    */
   getTypes(): Observable<string[]> {
     return of(this.types);
@@ -20,6 +21,7 @@ export class FilterService {
 
   /**
    * Returns 'years' as sequence of strings
+   * @returns {Observable<string[]>} 
    */
   getYears(): Observable<string[]> {
     return of(this.years);

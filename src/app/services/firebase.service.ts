@@ -8,10 +8,21 @@ export class FirebaseService {
 
   constructor(private db: AngularFireDatabase) { }
 
-  getDatabase() {
+  /**
+   * Returns the firebase database
+   * @returns {AngularFireDatabase}
+   */
+  getDatabase(): AngularFireDatabase {
     return this.db;
   }
 
+  /**
+   * Set a value for a key to the firebase path
+   * @param {string} path
+   * @param {string} key
+   * @param {*} value
+   * @returns {void}
+   */
   setValue(path: string, key: string, value: any) {
     this.db.list(path).set(key, value);
   }

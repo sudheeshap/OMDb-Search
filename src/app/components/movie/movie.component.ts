@@ -13,16 +13,24 @@ export class MovieComponent implements OnInit {
 
   constructor(private movieService: MovieService) { }
 
+  /**
+   * @inheritdoc
+   */
   ngOnInit() {
   }
 
-  get thumbImage() {
+  /**
+   * Returns the movie poster link
+   * @returns {string}
+   */
+  get thumbImageLink(): string {
     return this.movie.Poster === 'N/A' ? '' : this.movie.Poster;
   }
 
   /**
    * Clicked on add button
-   * @param movie 
+   * @param movie
+   * @returns {void}
    */
   onClickAdd(movie: Movie): void {
     movie.isListed = true;
@@ -31,7 +39,8 @@ export class MovieComponent implements OnInit {
 
   /**
    * Clicked on remove button
-   * @param movie 
+   * @param movie
+   * @returns {void}
    */
   onClickRemove(movie: Movie): void {
     movie.isListed = false;

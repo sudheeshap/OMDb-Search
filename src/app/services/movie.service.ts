@@ -1,61 +1,68 @@
-import { FirebaseService } from './firebase.service';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, tap, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { Observable, Subject, of, Subscriber, Subscription, BehaviorSubject, ReplaySubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { map, tap, debounceTime, switchMap } from 'rxjs/operators';
+import { Observable, Subject, of, Subscription, BehaviorSubject } from 'rxjs';
 
 import { Query } from './../models/query.model';
 import { Movie } from 'src/app/models/movie.model';
 import { UserService } from './user.service';
-import { AngularFireList } from '@angular/fire/database';
-import { queryRefresh } from '@angular/core/src/render3';
-
+import { FirebaseService } from './firebase.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MovieService {
-  watchList: Movie[] = [];
-  private omdbApiUrl:string = 'https://www.omdbapi.com/?i=tt3896198&apikey=3cc051ad';  // OMDb api URL
-  private searchTerms: BehaviorSubject<Query> = new BehaviorSubject(<Query>{ type: 'initial' });
-  private watchListSubject: Subject<Movie[]> = new Subject<Movie[]>();
-  watchList$: Observable<Movie[]> = this.watchListSubject.asObservable();
-
-  // private moviesSubject: Subject<Movie[]> = new Subject<Movie[]>();
-  private moviesSubject: Subject<Movie[]> = new Subject<Movie[]>();
-  movies$: Observable<Movie[]> = this.moviesSubject.asObservable();
-  movies: Movie[];
   searchListSubscription: Subscription;
   watchListSubscription: Subscription;
-  totalResultSubject: Subject<number> = new Subject<number>();
-  totalResults$ = this.totalResultSubject.asObservable();
+
   private isLoadMoreActive: boolean;
+  private watchList: Movie[] = [];
+  private movies: Movie[];
+  private omdbApiUrl: string = 'https://www.omdbapi.com/?i=tt3896198&apikey=3cc051ad';  // OMDb api URL
+  private searchTerms: BehaviorSubject<Query> = new BehaviorSubject(<Query>{ type: 'initial' });
+  private watchListSubject: Subject<Movie[]> = new Subject<Movie[]>();
+  private watchList$: Observable<Movie[]> = this.watchListSubject.asObservable();
+  private moviesSubject: Subject<Movie[]> = new Subject<Movie[]>();
+  private movies$: Observable<Movie[]> = this.moviesSubject.asObservable();
+  private totalResultSubject: Subject<number> = new Subject<number>();
+
+  totalResults$ = this.totalResultSubject.asObservable();
     
   constructor(
     private http: HttpClient,
     private firebaseService: FirebaseService,
-    private userService: UserService) {
+    private userService: UserService
+  ) {}
 
-    }
-
-  search(query: Query) {
-    console.log(query);
+  /**
+   * Search for the query
+   * @param {Query} query
+   * @returns {void}
+   */
+  search(query: Query): void {
     // Always search first page initially
     query.page = 1;
     this.isLoadMoreActive = false;
     this.searchTerms.next(query);
   }
 
-  loadNextPage() {
+  /**
+   * Load the next page
+   * @returns {void}
+   */
+  loadNextPage(): void {
     const query: Query = this.searchTerms.getValue();
-    
+
     query.page += 1;
-
     this.isLoadMoreActive = true;
-
     this.searchTerms.next(query);
   }
 
+  /**
+   * Returns the search result movies synced with watchlist
+   * @param {Movie[]} movies
+   * @returns {Movie[]}
+   */
   getSyncedSearchList(movies: Movie[]): Movie[] {
     this.watchList.forEach((movie: Movie) => {
       let index: number = movies.findIndex(m => m.imdbID === movie.imdbID);
@@ -69,6 +76,10 @@ export class MovieService {
     return movies;
   }
 
+  /**
+   * Returns the observable of search results
+   * @returns {Observable<Movie[]>}
+   */
   getSearchList(): Observable<Movie[]> {
 
     this.searchListSubscription = this.searchTerms.pipe(
@@ -94,7 +105,11 @@ export class MovieService {
     return this.movies$;
   }
 
-  getWatchList() {
+  /**
+   * Returns the observable of watchlist
+   * @returns {Observable<Movie[]>}
+   */
+  getWatchList(): Observable<Movie[]> {
     this.watchListSubscription = this.firebaseService.getDatabase()
       .list<Movie>(`${this.userService.getFirebaseUserKey()}/watchlist`).valueChanges()
       .subscribe((movies: Movie[] = []) => {
@@ -107,6 +122,11 @@ export class MovieService {
     return this.watchList$;
   }
 
+  /**
+   * Returns the observable of movies from the OMDb API response
+   * @param {Query} query
+   * @returns {Observable<Movie[]>}
+   */
   searchMovies(query: Query): Observable<Movie[]> {
     let url: string;
 
@@ -149,23 +169,37 @@ export class MovieService {
     );
   }
 
-  saveWatchList() {
+  /**
+   * Save the watchlist to the user firebase path
+   * @returns {void}
+   */
+  saveWatchList(): void {
     this.firebaseService.setValue(this.userService.getFirebaseUserKey(), 'watchlist', this.watchList);
   }
 
-  addMovie(movie) {
+  /**
+   * Add movie to the watchlist
+   * @param {Movie} movie
+   * @returns {void}
+   */
+  addMovie(movie: Movie): void {
     this.watchList.push(movie);
     this.saveWatchList();
   }
 
-  removeMovie(movie: Movie) {
+  /**
+   * Remove movie from the watchlist
+   * @param {Movie} movie
+   * @returns {void}
+   */
+  removeMovie(movie: Movie): void {
     this.watchList = this.watchList.filter((m: Movie) => m.imdbID !== movie.imdbID);
 
     if (!!this.movies) {
       let index: number = this.movies.findIndex(m => m.imdbID === movie.imdbID);
 
       if (index > -1) {
-        // Set as already listed
+        // Set search list movie as already listed
         this.movies[index].isListed = false;
       }
 

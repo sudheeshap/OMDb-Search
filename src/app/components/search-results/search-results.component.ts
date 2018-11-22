@@ -1,10 +1,9 @@
-import { LocalStorageService } from './../../services/local-storage.service';
-import { Query } from './../../models/query.model';
 import { Component, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 
 import { Movie } from 'src/app/models/movie.model';
 import { MovieService } from 'src/app/services/movie.service';
+import { LocalStorageService } from './../../services/local-storage.service';
 
 @Component({
   selector: 'app-search-results',
@@ -12,37 +11,47 @@ import { MovieService } from 'src/app/services/movie.service';
   styleUrls: ['./search-results.component.scss']
 })
 export class SearchResultsComponent implements OnInit {
-  movies$: Observable<Movie[]>;
-  totalResults$: Observable<number>;
-  totalResultsSubscription: Subscription;
-
   totalCount: number;
   hasSearch: boolean;
+  movies$: Observable<Movie[]>;
+
+  private totalResultsSubscription: Subscription;
 
   constructor(
     private movieService: MovieService,
     private localStorageService: LocalStorageService
   ) { }
 
+  
+  /**
+   * @inheritdoc
+   */
   ngOnInit() {
     this.movies$ = this.movieService.getSearchList();
-    this.totalResults$ = this.movieService.totalResults$;
-
-    this.totalResultsSubscription = this.totalResults$.subscribe((count: number) => {
-      this.totalCount = count;
-    console.log(this.totalCount);
-      return count;
-    });
-    
     this.hasSearch = !!this.localStorageService.getItem('has-search');
+
+    // Subscribe to the result count
+    this.totalResultsSubscription = this.movieService.totalResults$
+      .subscribe((count: number) => {
+        this.totalCount = count;
+        return count;
+      })
+    ;
   }
 
+  /**
+   * @inheritdoc
+   */
   ngOnDestroy() {
     this.totalResultsSubscription.unsubscribe();
     this.movieService.searchListSubscription.unsubscribe();
   }
 
-  onClickLoadMore() {
+  /**
+   * Clicked on the load more button
+   * @returns {void}
+   */
+  onClickLoadMore(): void {
     this.movieService.loadNextPage();
   }
 }
