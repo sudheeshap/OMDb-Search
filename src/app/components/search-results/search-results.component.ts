@@ -11,7 +11,7 @@ import { LocalStorageService } from './../../services/local-storage.service';
   styleUrls: ['./search-results.component.scss']
 })
 export class SearchResultsComponent implements OnInit {
-  totalCount: number;
+  hasMoreResults: boolean;
   hasSearch: boolean;
   movies$: Observable<Movie[]>;
 
@@ -22,7 +22,6 @@ export class SearchResultsComponent implements OnInit {
     private localStorageService: LocalStorageService
   ) { }
 
-  
   /**
    * @inheritdoc
    */
@@ -30,11 +29,11 @@ export class SearchResultsComponent implements OnInit {
     this.movies$ = this.movieService.getSearchList();
     this.hasSearch = !!this.localStorageService.getItem('has-search');
 
-    // Subscribe to the result count
-    this.totalResultsSubscription = this.movieService.totalResults$
-      .subscribe((count: number) => {
-        this.totalCount = count;
-        return count;
+    // Subscribe to the availability of more results to load
+    this.totalResultsSubscription = this.movieService.hasMoreResults$
+      .subscribe((hasMore: boolean) => {
+        this.hasMoreResults = hasMore;
+        return hasMore;
       })
     ;
   }

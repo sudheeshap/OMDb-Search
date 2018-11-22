@@ -16,6 +16,7 @@ export class MovieService {
   watchListSubscription: Subscription;
 
   private isLoadMoreActive: boolean;
+  private resultsPerPage = 10;
   private watchList: Movie[] = [];
   private movies: Movie[];
   private omdbApiUrl: string = 'https://www.omdbapi.com/?i=tt3896198&apikey=3cc051ad';  // OMDb api URL
@@ -24,9 +25,9 @@ export class MovieService {
   private watchList$: Observable<Movie[]> = this.watchListSubject.asObservable();
   private moviesSubject: Subject<Movie[]> = new Subject<Movie[]>();
   private movies$: Observable<Movie[]> = this.moviesSubject.asObservable();
-  private totalResultSubject: Subject<number> = new Subject<number>();
+  private hasMoreResultsSubject: Subject<boolean> = new Subject<boolean>();
 
-  totalResults$ = this.totalResultSubject.asObservable();
+  hasMoreResults$ = this.hasMoreResultsSubject.asObservable();
     
   constructor(
     private http: HttpClient,
@@ -139,7 +140,7 @@ export class MovieService {
     // Search term not enough
     if (!query.title || (query.title && query.title.length < 3)) {
 
-      this.totalResultSubject.next(0);
+      this.hasMoreResultsSubject.next(false);
 
       return of([]);
     } else {
@@ -162,8 +163,13 @@ export class MovieService {
       .pipe(
         tap(_ => console.log(`found movies matching "${query.title}"`)),
         map(res => {
-          // Total result count of current search
-          this.totalResultSubject.next(parseInt(res['totalResults']));
+          if (res['totalResults']) {
+            const hasMore: boolean = (query.page * this.resultsPerPage) < parseInt(res['totalResults']);
+            // Has more results to load?
+            this.hasMoreResultsSubject.next(hasMore);
+          } else {
+            this.hasMoreResultsSubject.next(false);
+          }
           return res['Search'];
         })
     );
