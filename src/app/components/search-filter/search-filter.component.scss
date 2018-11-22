@@ -40,6 +40,13 @@
     pointer-events: none;
     color: $text-color-muted;
   }
+
+  .input-title {
+
+    &::placeholder {
+      color: lighten($text-color-secondary, 10%);
+    }
+  }
 }
 
 @media (min-width: $grid-tablet-breakpoint) {
