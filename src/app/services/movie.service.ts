@@ -8,6 +8,7 @@ import { Query } from './../models/query.model';
 import { Movie } from 'src/app/models/movie.model';
 import { UserService } from './user.service';
 import { AngularFireList } from '@angular/fire/database';
+import { queryRefresh } from '@angular/core/src/render3';
 
 
 @Injectable({
@@ -39,6 +40,8 @@ export class MovieService {
 
   search(query: Query) {
     console.log(query);
+    // Always search first page initially
+    query.page = 1;
     this.isLoadMoreActive = false;
     this.searchTerms.next(query);
   }
@@ -69,16 +72,12 @@ export class MovieService {
   getSearchList(): Observable<Movie[]> {
 
     this.searchListSubscription = this.searchTerms.pipe(
-      // wait 300ms after each keystroke before considering the term
-      debounceTime(300),
+      // Wait 400ms after each keystroke before considering the term
+      debounceTime(400),
 
-      // ignore new term if same as previous term
-      // distinctUntilChanged((a: Query, b: Query) => {console.log(a, b); return a.title !== b.title}),
-
-      // switch to new search observable each time the term changes
+      // Switch to new search observable each time the term changes
       switchMap((query: Query) => this.searchMovies(query)),
     ).subscribe((movies: Movie[] = []) => {
-      console.log(movies);
       let allMovies: Movie[];
 
       if (this.isLoadMoreActive) {
@@ -92,22 +91,10 @@ export class MovieService {
       return this.movies;
     });
 
-    // return this.movies$.pipe(map(movies => {console.log(movies);return movies}));
     return this.movies$;
   }
 
-  // getWatchList() {
-  //   const _watchList: AngularFireList<Movie> = this.firebaseService.getDatabase()
-  //     .list<Movie>(`${this.userService.getFirebaseUserKey()}/watchlist`)
-  //   ;
-    
-  //   _watchList.valueChanges().subscribe((movies) => this.watchList = movies);
-
-  //   return _watchList.valueChanges();
-  // }
-
   getWatchList() {
-    // console.log(this.firebaseService.getDatabase().list<Movie>(`${this.userService.getFirebaseUserKey()}/watchlist`));
     this.watchListSubscription = this.firebaseService.getDatabase()
       .list<Movie>(`${this.userService.getFirebaseUserKey()}/watchlist`).valueChanges()
       .subscribe((movies: Movie[] = []) => {
@@ -121,18 +108,19 @@ export class MovieService {
   }
 
   searchMovies(query: Query): Observable<Movie[]> {
-    console.log(query);
     let url: string;
 
+    // Initial search on page load
     if (query.type === 'initial') {
       query.type = '';
       return of();
     }
 
+    // Search term not enough
     if (!query.title || (query.title && query.title.length < 3)) {
+
       this.totalResultSubject.next(0);
 
-      // if not search term, return empty movie array.
       return of([]);
     } else {
       url = this.omdbApiUrl + `&s=${query.title}`;
@@ -150,17 +138,15 @@ export class MovieService {
     
     url = url + `&page=${query.page}`;
 
-    // return this.http.get<Movie[]>(`${this.omdbApiUrl}/?s=${query.title}`).pipe(
-      return this.http.get<Movie[]>(url)
-        .pipe(
-          tap(_ => console.log(`found movies matching "${query.title}"`)),
-          map(res => {
-            console.log(parseInt(res['totalResults']));
-            this.totalResultSubject.next(parseInt(res['totalResults']));
-            return res['Search'];
-          })
-          // catchError(this.handleError<Movie[]>('searchHeroes', []))
-      );
+    return this.http.get<Movie[]>(url)
+      .pipe(
+        tap(_ => console.log(`found movies matching "${query.title}"`)),
+        map(res => {
+          // Total result count of current search
+          this.totalResultSubject.next(parseInt(res['totalResults']));
+          return res['Search'];
+        })
+    );
   }
 
   saveWatchList() {

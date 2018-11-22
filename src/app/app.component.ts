@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/database';
 
 import { UserService } from './services/user.service';
 
@@ -12,10 +11,17 @@ export class AppComponent {
   
   constructor(private userService: UserService) {}
 
+  /**
+   * @inheritdoc
+   */
   ngOnInit() {
     this.userLogin();
   }
 
+  /**
+   * Login user (Authentication not added yet, only localStorage ID matching for now)
+   * @returns {void}
+   */
   userLogin(): void {
     this.userService.login();
   }

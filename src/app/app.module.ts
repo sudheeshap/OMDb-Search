@@ -5,6 +5,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
@@ -13,7 +14,6 @@ import { SearchResultsComponent } from './components/search-results/search-resul
 import { WatchlistComponent } from './components/watchlist/watchlist.component';
 import { SearchFilterComponent } from './components/search-filter/search-filter.component';
 import { MovieComponent } from './components/movie/movie.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -29,8 +29,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     FormsModule,
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase, 'movie-search'),
-    // AngularFirestoreModule,
-    // AngularFireStorageModule,
     AngularFireDatabaseModule,
     NgbDropdownModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })

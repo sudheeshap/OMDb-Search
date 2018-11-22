@@ -1,4 +1,3 @@
-import { Movie } from 'src/app/models/movie.model';
 import { Injectable } from '@angular/core';
 import { AngularFireList } from '@angular/fire/database';
 import { DatabaseReference } from '@angular/fire/database/interfaces';
@@ -13,20 +12,33 @@ import { LocalStorageService } from './local-storage.service';
 export class UserService {
   private sessionUser: User = <User>{};
   private users: AngularFireList<User>;
-
+  
   constructor(
     private localStorageService: LocalStorageService,
-    private firebaseService: FirebaseService) {}
-
-  getSessionUser() {
+    private firebaseService: FirebaseService
+  ) {}
+  
+  /**
+   * Returns the session user
+   * @returns {User}
+   */
+  getSessionUser(): User {
     return this.sessionUser;
   }
-
-  getFirebaseUserKey() {
+  
+  /**
+   * Returns the firebase key for the session user
+   * @returns {string}
+   */
+  getFirebaseUserKey(): string {
     return `/users/${this.sessionUser.id}`;
   }
-
-  login() {
+  
+  /**
+   * Get or set the session user ID if not available in local storage
+   * @returns {void}
+   */
+  login(): void {
 
     if (this.localStorageService.getItem('user-id')) {
       // Session user ID
@@ -42,8 +54,6 @@ export class UserService {
         
         // Session user ID
         this.sessionUser.id = newRef.key;
-        
-        console.log(newRef, newRef.key);
       }
     }
   }
