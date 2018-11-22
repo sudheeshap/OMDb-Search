@@ -1,8 +1,8 @@
-<div>Search results</div>
+<div *ngIf="(movies$ | async)">Search results</div>
 <div class="grid results">
   <div *ngIf="!(movies$ | async)" class="empty-state">
     <div class="icon fa fa-search"></div>
-    <h3>No search yet?</h3>
+    <h3 *ngIf="!hasSearch">No search yet?</h3>
     <div class="description">You can search for movies or series by their title.</div>
   </div>
   <div *ngIf="(movies$ | async)?.length === 0" class="empty-state">
@@ -10,6 +10,6 @@
     <h3>No results found</h3>
   </div>
   <ng-container *ngFor="let movie of movies$ | async">
-    <app-movie class="cell cell-6-desktop movie search-result-item" [movie]='movie'></app-movie>
+    <app-movie class="cell cell-6-tablet movie search-result-item" [movie]='movie'></app-movie>
   </ng-container>
 </div>

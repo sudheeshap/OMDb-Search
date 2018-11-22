@@ -12,5 +12,29 @@ header {
     max-width: 900px;
     margin-left: auto;
     margin-right: auto;
+    padding: 0 10px;
+  }
+
+  .logo {
+    background-image: url('../../../assets/img/logo-white.png');
+    width: 38px;
+    height: 48px;
+  }
+}
+
+@media (min-width: $grid-tablet-breakpoint) {
+
+  header {
+
+    .logo {
+      width: 180px;
+    }
+  }
+}
+
+@media (min-width: $grid-desktop-breakpoint) {
+
+  .header-nav {
+    padding: 0;
   }
 }

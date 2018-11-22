@@ -1,16 +1,17 @@
 @import "../../../scss/main";
 
-.form-control {
+.input-title {
   height: 19px;
   width: auto;
+  max-width: 110px;
 }
 
 .btn {
   background-color: $color-transparent;
   color: $color-white;
-  margin-right: 14px;
   text-transform: capitalize;
   outline: none;
+  margin-right: 5px;
 }
 
 .dropdown-menu {
@@ -26,5 +27,28 @@
       background-color: $color-gray;
       color: $color-white;
     }
+  }
+}
+
+.input-container {
+  position: relative;
+
+  i {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    pointer-events: none;
+    color: $text-color-muted;
+  }
+}
+
+@media (min-width: $grid-tablet-breakpoint) {
+
+  .btn {
+    margin-right: 14px;
+  }
+
+  .input-title {
+    max-width: none;
   }
 }

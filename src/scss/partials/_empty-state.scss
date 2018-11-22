@@ -10,10 +10,20 @@
   .description {
     color: $text-color-secondary;
     font-size: 14px;
+    max-width: 75%;
+    text-align: center;
+    line-height: 20px;
   }
 
   .icon {
-    font-size: 100px;
+    font-size: 80px;
     color: $text-color-muted;
+  }
+
+  @media (min-width: $grid-tablet-breakpoint) {
+
+    .icon {
+      font-size: 100px;
+    }
   }
 }

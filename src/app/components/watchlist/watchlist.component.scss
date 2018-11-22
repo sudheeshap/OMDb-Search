@@ -1,10 +1,10 @@
 @import "../../../scss/main";
 
 :host {
+  margin-top: 20px;
 
   .watchlist {
     margin-top: 10px;
-    height: 560px;
     overflow-y: scroll;
   }
 
@@ -20,5 +20,17 @@
   @media (min-width: $grid-tablet-breakpoint) {
     padding-left: 7px;
     box-sizing: border-box;
+  }
+
+  @media (min-width: $grid-desktop-breakpoint) {
+
+    & {
+      margin-top: 0;
+    }
+
+    .watchlist {
+      display: block;
+      height: 560px;
+    }
   }
 }

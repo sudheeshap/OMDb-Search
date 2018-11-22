@@ -1,3 +1,4 @@
+import { LocalStorageService } from './../../services/local-storage.service';
 import { Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 
@@ -17,7 +18,11 @@ export class SearchFilterComponent implements OnInit {
   typeSubscription: Subscription;
   yearSubscription: Subscription;
   
-  constructor(private filterService: FilterService, private movieService: MovieService) { }
+  constructor(
+    private filterService: FilterService,
+    private movieService: MovieService,
+    private localStorageService: LocalStorageService
+  ) { }
 
   ngOnInit(): void {
     this.getTypes();
@@ -45,8 +50,15 @@ export class SearchFilterComponent implements OnInit {
     this.movieService.search(this.query);
   }
 
+  setSearched() {
+    if (!this.localStorageService.getItem('has-search')) {
+      this.localStorageService.setItem('has-search', true);
+    }
+  }
+
   onInput(): void {
     this.search();
+    this.setSearched();
   }
 
   onSelectType(type: string) {

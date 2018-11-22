@@ -5,6 +5,6 @@
     <div class="description">Your watchlist is empty.</div>
   </div>
   <ng-container *ngFor="let movie of movies$ | async">
-    <app-movie class="cell movie watchlist-item" [movie]='movie'></app-movie>
+    <app-movie class="cell cell-6-tablet cell-12-desktop movie watchlist-item" [movie]='movie'></app-movie>
   </ng-container>
 </div>
