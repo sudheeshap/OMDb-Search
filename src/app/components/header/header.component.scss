@@ -2,6 +2,7 @@
 
 header {
   background-color: $header-background;
+  box-shadow: $header-shadow;
   height: 56px;
 
   .header-nav {

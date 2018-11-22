@@ -29,7 +29,7 @@
 
     .wrapper {
       background-color: $color-white;
-      box-shadow: 1px 0px 5px 0px rgba(197, 197, 197, 0.75);
+      box-shadow: $movie-card-shadow;
       height: 100px;
       margin-block-end: 8px;
     }

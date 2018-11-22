@@ -14,8 +14,8 @@ import { LocalStorageService } from './../../services/local-storage.service';
 export class SearchFilterComponent implements OnInit {
   types: string[];
   years: string[];
-
-  private query: Query = new Query();
+  query: Query = new Query();
+  
   private typeSubscription: Subscription;
   private yearSubscription: Subscription;
   
