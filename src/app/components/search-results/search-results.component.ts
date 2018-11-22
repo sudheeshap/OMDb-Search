@@ -12,7 +12,6 @@ import { MovieService } from 'src/app/services/movie.service';
   styleUrls: ['./search-results.component.scss']
 })
 export class SearchResultsComponent implements OnInit {
-  searchQuery$: Observable<Query>;
   movies$: Observable<Movie[]>;
   hasSearch: boolean;
 
@@ -22,7 +21,6 @@ export class SearchResultsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.searchQuery$ = this.movieService.getSearchQuery();
     this.movies$ = this.movieService.getSearchList();
     this.hasSearch = !!this.localStorageService.getItem('has-search');
   }

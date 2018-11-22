@@ -23,7 +23,7 @@ export class MovieService {
   // private moviesSubject: Subject<Movie[]> = new Subject<Movie[]>();
   private moviesSubject: Subject<Movie[]> = new Subject<Movie[]>();
   movies$: Observable<Movie[]> = this.moviesSubject.asObservable();
-  movies: Movie[] = [];
+  movies: Movie[];
   searchListSubscription: Subscription;
   watchListSubscription: Subscription;
     
@@ -151,14 +151,19 @@ export class MovieService {
 
   removeMovie(movie: Movie) {
     this.watchList = this.watchList.filter((m: Movie) => m.imdbID !== movie.imdbID);
-    let index: number = this.movies.findIndex(m => m.imdbID === movie.imdbID);
 
-    if (index > -1) {
-      // Set as already listed
-      this.movies[index].isListed = false;
-    }    // this.watchListSubject.next(this.watchList);
+    if (!!this.movies) {
+      let index: number = this.movies.findIndex(m => m.imdbID === movie.imdbID);
+
+      if (index > -1) {
+        // Set as already listed
+        this.movies[index].isListed = false;
+      }
+
+      this.moviesSubject.next(this.movies);
+    }
+
+    
     this.saveWatchList();
-    // this.movies$. .next(this.watchList);
-    this.moviesSubject.next(this.movies);
   }
 }

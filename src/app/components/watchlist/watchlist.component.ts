@@ -20,9 +20,6 @@ export class WatchlistComponent implements OnInit {
     }
 
   ngOnInit() {
-    // this.movies$ = this.movieService.getWatchList();
-    // this.movies$ = this.db.list('items').valueChanges()
-    // this.movies$ = this.db.collection('items').valueChanges();
     this.movies$ = this.movieService.getWatchList();
   }
 
