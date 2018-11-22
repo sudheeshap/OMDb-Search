@@ -11,6 +11,13 @@
       .container-remove {
         display: none;
       }
+
+      .btn-remove {
+        color: $color-black;
+        background-color: $color-orange;
+        border-color: $color-orange;
+        pointer-events: none;
+      }
     }
     
     &.watchlist-item {
@@ -26,26 +33,71 @@
       height: 100px;
       margin-right: 8px;
     }
+
+    .title {
+      font-size: 15px;
+      padding-bottom: 8px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .type {
+      color: $text-color-secondary;
+      font-size: 12px;
+      padding-bottom: 15px;
+      text-transform: capitalize;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+    }
   }
 
   .btn {
     text-transform: uppercase;
+    font-size: 12px;
+    text-decoration: none;
+    flex-grow: 1;
+
+    &.button-link {
+      margin-right: 10px;
+    }
+
+    i {
+      margin-right: 5px;
+    }
   }
 
   .thumb {
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: $text-color-muted;
     max-width: 120px;
     max-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    img {
-      height: 100%;
-      width: 100%;
+    &.has-image {
+
+      i {
+        display: none;
+      }
+    }
+
+    i {
+      font-size: 60px;
+      color: darken($text-color-muted, 6%);
     }
   }
 
   .body {
 
     > div {
-      padding: 5px;
+      padding: 7px;
     }
   }
 }

@@ -1,25 +1,25 @@
 <div class="grid wrapper">
-  <div class="cell cell-4 thumb">
-    <img src="{{movie.Poster}}" alt="{{movie.Title}}" onError="this.src='./assets/img/logo-white.png'">
+  <div class="cell cell-4 thumb" [class.has-image]="thumbImage" [style.background-image]="'url('+thumbImage+')'">
+    <i class="fa fa-image"></i>
   </div>
   <div class="cell cell-8 body">
     <div>
       <div class="title">{{movie.Title}}</div>
       <div class="type">{{movie.Year}} - {{movie.Type}}</div>
-      <button class="button btn btn-warning">
-        <a href="https://www.imdb.com/title/{{movie.imdbID}}" target="_blank">
+      <div class="actions">
+        <a href="https://www.imdb.com/title/{{movie.imdbID}}" target="_blank" class="btn btn-sm btn-warning button-link">
           <i class="fa fa-link"></i>
           <span>IMDb</span>
         </a>
-      </button>
-      <button class="button btn btn-sm btn-success" *ngIf="!movie.isListed" [class.listed]="movie.isListed" (click)="onClickAdd(movie)">
-        <div><i class="fa fa-plus"></i> <span>Add</span>
-        </div>
-      </button>
-      <button class="button btn btn-sm btn-danger" *ngIf="movie.isListed" (click)="onClickRemove(movie)">
-        <span class="container-listed">Listed</span>
-        <span class="container-remove"><i class="fa fa-times"></i><span>Remove</span></span>
-      </button>
+        <button class="btn btn-sm btn-success" *ngIf="!movie.isListed" [class.listed]="movie.isListed" (click)="onClickAdd(movie)">
+          <div><i class="fa fa-plus"></i> <span>Add</span>
+          </div>
+        </button>
+        <button class=" btn btn-sm btn-remove btn-danger" *ngIf="movie.isListed" (click)="onClickRemove(movie)">
+          <span class="container-listed">Listed</span>
+          <span class="container-remove"><i class="fa fa-times"></i><span>Remove</span></span>
+        </button>
+      </div>
     </div>
   </div>
 </div>

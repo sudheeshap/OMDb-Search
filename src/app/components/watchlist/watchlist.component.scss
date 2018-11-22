@@ -4,11 +4,12 @@
 
   .watchlist {
     margin-top: 10px;
-    min-height: 400px;
-    // box-shadow: inset 1px 0px 5px 0px rgba(197, 197, 197, 0.75);
+    height: 560px;
+    overflow-y: scroll;
   }
 
   .empty-state {
+    border: 1px dashed $text-color-muted;
     
     .icon {
       font-size: 60px;

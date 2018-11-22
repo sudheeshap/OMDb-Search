@@ -16,6 +16,10 @@ export class MovieComponent implements OnInit {
   ngOnInit() {
   }
 
+  get thumbImage() {
+    return this.movie.Poster === 'N/A' ? '' : this.movie.Poster;
+  }
+
   /**
    * Clicked on add button
    * @param movie 
