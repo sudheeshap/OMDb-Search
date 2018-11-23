@@ -9,11 +9,11 @@ export class LocalStorageService {
 
   /**
    * Returns the item from the localStorage
-   * @param {string} item
+   * @param {string} key
    * @returns {string}
    */
-  getItem(item: string): string {
-    return localStorage.getItem(item);
+  getItem(key: string): string {
+    return localStorage.getItem(key);
   }
 
   /**

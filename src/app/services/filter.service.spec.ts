@@ -15,19 +15,15 @@ describe('FilterService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getTypes', () => {
-    it('should return observable of types', () => {
-      expect(service.getTypes().subscribe((types) => {
-        expect(types).toEqual(service.types);
-      }));
+  it('#getTypes should return observable of types', () => {
+    service.getTypes().subscribe((types) => {
+      expect(types).toEqual(service.types);
     });
   });
-
-  describe('getYears', () => {
-    it('should return observable of years', () => {
-      expect(service.getYears().subscribe((types) => {
-        expect(types).toEqual(service.years);
-      }));
+  
+  it('#getYears should return observable of years', () => {
+    service.getYears().subscribe((types) => {
+      expect(types).toEqual(service.years);
     });
   });
 });
