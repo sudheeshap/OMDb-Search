@@ -4,35 +4,24 @@ import { AngularFireDatabase, AngularFireDatabaseModule } from '@angular/fire/da
 
 import { FirebaseService } from './firebase.service';
 import { environment } from './../../environments/environment';
+import { FirebaseServiceMock } from './firebase.service.mock';
 
 describe('FirebaseService', () => {
-  let firebaseService: FirebaseService;
-  let angularFireDatabaseSpy: jasmine.SpyObj<AngularFireDatabase>;
+  let firebaseService: FirebaseServiceMock;
   
   beforeEach(() => {
-    const angularFireDatabaseStub: Partial<AngularFireDatabase> = {
-      list: jasmine.createSpy('list').and.callFake((path: string) => {
-        return {
-          set: jasmine.createSpy('set').and.callFake(
-            (key: string, value: any) => console.log(key, value)
-          )
-        };
-      })
-    };
-
     TestBed.configureTestingModule({
     imports: [
       AngularFireModule.initializeApp(environment.firebase, 'movie-search'),
       AngularFireDatabaseModule
     ],
     providers: [
-      FirebaseService,
-      { provide: AngularFireDatabase, useValue: angularFireDatabaseStub }
+      { provide: FirebaseService, useClass: FirebaseServiceMock },
+      { provide: AngularFireDatabase, useValue: new FirebaseServiceMock().db }
     ]
     });
 
     firebaseService = TestBed.get(FirebaseService);
-    angularFireDatabaseSpy = TestBed.get(AngularFireDatabase);
   });
 
   it('should be created', () => {
@@ -41,12 +30,11 @@ describe('FirebaseService', () => {
   });
   
   it('#getDatabase should return the firebase database', () => {
-    expect(firebaseService.getDatabase()).toBe(angularFireDatabaseSpy);
+    expect(firebaseService.getDatabase()).toBe(firebaseService.db);
   });
 
   it('#setValue should set the value to firebase path', () => {
     firebaseService.setValue('users/123', 'isLoggedIn', false);
-    expect(angularFireDatabaseSpy.list).toHaveBeenCalled();
-    expect(angularFireDatabaseSpy.list().set).toBeTruthy();
+    expect(firebaseService.store['isLoggedIn']).toBe(false);
   });
 });

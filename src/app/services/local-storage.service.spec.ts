@@ -1,33 +1,30 @@
 import { TestBed } from '@angular/core/testing';
 
 import { LocalStorageService } from './local-storage.service';
+import { localStorageMock } from './local-storage.service.mock';
 
 describe('LocalStorageService', () => {
+  let service: LocalStorageService;
+  
   beforeEach(() => {
-    const localStorageStub: object = {
-      store: {},
-      getItem: (key: string) => this.store[key],
-      setItem: (key: string, val: string) => this.store[key] = val
-    };
+    spyOn(localStorage, 'getItem').and.callFake(localStorageMock.getItem);
+    spyOn(localStorage, 'setItem').and.callFake(localStorageMock.setItem);
 
-    TestBed.configureTestingModule({
-      providers: [ { provide: localStorage, useValue: localStorageStub } ]
-    })
+    TestBed.configureTestingModule({});
+
+    service = TestBed.get(LocalStorageService);
   });
 
   it('should be created', () => {
-    const service: LocalStorageService = TestBed.get(LocalStorageService);
     expect(service).toBeTruthy();
   });
 
   it('#getItem should return the value from localStorage', () => {
-    const service: LocalStorageService = TestBed.get(LocalStorageService);
     service.setItem('name', 'Anna');
     expect(service.getItem('name')).toBe('Anna');
   });
 
   it('#setItem should set the value to localStorage', () => {
-    const service: LocalStorageService = TestBed.get(LocalStorageService);
     service.setItem('name', 'Anna');
     expect(service.getItem('name')).toBe('Anna');
   });

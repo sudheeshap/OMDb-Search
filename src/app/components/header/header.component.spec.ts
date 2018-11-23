@@ -1,7 +1,13 @@
+import { environment } from './../../../environments/environment';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { FormsModule } from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SearchFilterComponent } from './../search-filter/search-filter.component';
 import { HeaderComponent } from './header.component';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { AngularFireModule } from '@angular/fire';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -10,6 +16,14 @@ describe('HeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        FormsModule,
+        // HttpClientModule,
+        // AngularFireDatabaseModule
+        HttpClientTestingModule,
+        AngularFireModule.initializeApp(environment.firebase, 'movie-search'),
+        AngularFireDatabaseModule
+      ],
       declarations: [
         HeaderComponent,
         SearchFilterComponent
@@ -31,10 +45,10 @@ describe('HeaderComponent', () => {
   });
 
   it('should have a logo', () => {
-    expect(hostElement.querySelector('img.logo')).not.toBe(null);
+    expect(hostElement.querySelector('.logo')).not.toBe(null);
   });
 
-  it(`should have a child element 'app-search-filter'`, () => {
+  it(`should have a child component 'app-search-filter'`, () => {
     expect(hostElement.querySelector('app-search-filter')).not.toBe(null);
   });
 });

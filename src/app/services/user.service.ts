@@ -10,7 +10,7 @@ import { LocalStorageService } from './local-storage.service';
   providedIn: 'root'
 })
 export class UserService {
-  private sessionUser: User = <User>{};
+  sessionUser: User = <User>{};
   private users: AngularFireList<User>;
   
   constructor(
@@ -46,7 +46,7 @@ export class UserService {
     } else {
       this.users = this.firebaseService.getDatabase().list('/users');
       const newRef: DatabaseReference = this.users.push(<User>{
-        watchlist: [] 
+        watchlist: []
       });
 
       if (newRef.key) {

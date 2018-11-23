@@ -14,13 +14,13 @@ import { FirebaseService } from './firebase.service';
 export class MovieService {
   searchListSubscription: Subscription;
   watchListSubscription: Subscription;
+  isLoadMoreActive: boolean;
+  searchTerms: BehaviorSubject<Query> = new BehaviorSubject(<Query>{ type: 'initial' });
+  watchList: Movie[] = [];
 
-  private isLoadMoreActive: boolean;
   private resultsPerPage = 10;
-  private watchList: Movie[] = [];
   private movies: Movie[];
   private omdbApiUrl: string = 'https://www.omdbapi.com/?i=tt3896198&apikey=3cc051ad';  // OMDb api URL
-  private searchTerms: BehaviorSubject<Query> = new BehaviorSubject(<Query>{ type: 'initial' });
   private watchListSubject: Subject<Movie[]> = new Subject<Movie[]>();
   private watchList$: Observable<Movie[]> = this.watchListSubject.asObservable();
   private moviesSubject: Subject<Movie[]> = new Subject<Movie[]>();
@@ -69,8 +69,7 @@ export class MovieService {
       let index: number = movies.findIndex(m => m.imdbID === movie.imdbID);
       
       if (index > -1) {
-        // Set as already listed
-        movies[index].isListed = true;
+        movies[index].isListed = movie.isListed;
       }
     });
 

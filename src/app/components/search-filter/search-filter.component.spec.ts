@@ -1,6 +1,12 @@
+import { environment } from './../../../environments/environment';
+import { HttpClientModule } from '@angular/common/http';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { FormsModule } from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SearchFilterComponent } from './search-filter.component';
+import { AngularFireModule } from '@angular/fire';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('SearchFilterComponent', () => {
   let component: SearchFilterComponent;
@@ -9,6 +15,12 @@ describe('SearchFilterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        FormsModule,
+        HttpClientTestingModule,
+        AngularFireModule.initializeApp(environment.firebase, 'movie-search'),
+        AngularFireDatabaseModule
+      ],
       declarations: [ SearchFilterComponent ]
     })
     .compileComponents();
