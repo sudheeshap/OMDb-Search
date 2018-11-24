@@ -9,10 +9,10 @@
       "urls": [
         "https://sudheeshap.github.io/OMDb-Search/favicon.ico",
         "https://sudheeshap.github.io/OMDb-Search/index.html",
-        "https://sudheeshap.github.io/OMDb-Search/main.04ab6e0b8c0864fca164.js",
+        "https://sudheeshap.github.io/OMDb-Search/main.36ab878f60b917d6b5d9.js",
         "https://sudheeshap.github.io/OMDb-Search/polyfills.c6871e56cb80756a5498.js",
         "https://sudheeshap.github.io/OMDb-Search/runtime.ec2944dd8b20ec099bf3.js",
-        "https://sudheeshap.github.io/OMDb-Search/styles.da256e29c1a089b78a5d.css"
+        "https://sudheeshap.github.io/OMDb-Search/styles.2fabe072b5367ad387d8.css"
       ],
       "patterns": []
     },
@@ -46,11 +46,11 @@
     "https://sudheeshap.github.io/OMDb-Search/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
     "https://sudheeshap.github.io/OMDb-Search/assets/img/logo-white.png": "ce629870e2c95bb9f2540e23ee4b030cc40a681d",
     "https://sudheeshap.github.io/OMDb-Search/favicon.ico": "c82bc5ee2f5c55c11d1e98fe1861cd78363bc74b",
-    "https://sudheeshap.github.io/OMDb-Search/index.html": "deeda3a8eefa68def789dc7f6e0e9700e8ac9dc4",
-    "https://sudheeshap.github.io/OMDb-Search/main.04ab6e0b8c0864fca164.js": "f65b681d210badf091249793d01337bc20e755ea",
+    "https://sudheeshap.github.io/OMDb-Search/index.html": "b3d646e8d4db0048752204655e245a7a500e3ecf",
+    "https://sudheeshap.github.io/OMDb-Search/main.36ab878f60b917d6b5d9.js": "f2f853756c7e6366d620a8e5e0c31269f19ff179",
     "https://sudheeshap.github.io/OMDb-Search/polyfills.c6871e56cb80756a5498.js": "ce68d153e9b9b6d26b625069c0ee99ae09c6f255",
     "https://sudheeshap.github.io/OMDb-Search/runtime.ec2944dd8b20ec099bf3.js": "b62956c2192bfe5516d6374e753773901ed50ec5",
-    "https://sudheeshap.github.io/OMDb-Search/styles.da256e29c1a089b78a5d.css": "c3374c08bf69b8c15365d2c68ea9f63f3134d2a5"
+    "https://sudheeshap.github.io/OMDb-Search/styles.2fabe072b5367ad387d8.css": "7d8481f8f7f7fa60e5b26e7cdf32f8e5fb501f19"
   },
   "navigationUrls": [
     {
