@@ -14,8 +14,7 @@ export class SearchResultsComponent implements OnInit {
   hasMoreResults: boolean;
   hasSearch: boolean;
   movies$: Observable<Movie[]>;
-
-  private totalResultsSubscription: Subscription;
+  totalResultsSubscription: Subscription;
 
   constructor(
     private movieService: MovieService,

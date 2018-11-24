@@ -1,13 +1,12 @@
-import { environment } from './../../../environments/environment';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { FormsModule } from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { AngularFireModule } from '@angular/fire';
 
 import { SearchFilterComponent } from './../search-filter/search-filter.component';
 import { HeaderComponent } from './header.component';
-import { HttpClientModule } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { AngularFireModule } from '@angular/fire';
+import { environment } from './../../../environments/environment';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;

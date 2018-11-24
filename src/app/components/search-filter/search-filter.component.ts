@@ -15,9 +15,8 @@ export class SearchFilterComponent implements OnInit {
   types: string[];
   years: string[];
   query: Query = new Query();
-  
-  private typeSubscription: Subscription;
-  private yearSubscription: Subscription;
+  typeSubscription: Subscription;
+  yearSubscription: Subscription;
   
   constructor(
     private filterService: FilterService,
