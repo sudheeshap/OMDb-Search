@@ -67,8 +67,8 @@
     &.button-link {
       margin-right: 10px;
       text-transform: none;
-      max-height: 18px;
-      max-width: 55px;
+      max-width: 75px;
+      box-sizing: border-box;
     }
 
     i {
