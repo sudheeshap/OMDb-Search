@@ -1,13 +1,11 @@
-@import "../../../scss/main";
+@import '../../../scss/main';
 
 :host {
-  
   &.movie {
     height: 100px;
     margin-bottom: 8px;
 
     &.search-result-item {
-    
       .container-remove {
         display: none;
       }
@@ -19,11 +17,14 @@
         pointer-events: none;
       }
     }
-    
+
     &.watchlist-item {
-      
       .container-listed {
         display: none;
+      }
+
+      .btn-remove {
+        max-width: 85px;
       }
     }
 
@@ -60,11 +61,14 @@
     font-size: 12px;
     text-decoration: none;
     flex-grow: 1;
-    max-width: 80px;
+    max-height: 28px;
+    max-width: 70px;
 
     &.button-link {
       margin-right: 10px;
       text-transform: none;
+      max-height: 18px;
+      max-width: 55px;
     }
 
     i {
@@ -84,7 +88,6 @@
     justify-content: center;
 
     &.has-image {
-
       i {
         display: none;
       }
@@ -97,14 +100,12 @@
   }
 
   .body {
-
     > div {
       padding: 7px;
     }
   }
 
   @media (min-width: $grid-tablet-breakpoint) {
-
     .wrapper {
       margin-right: 8px;
     }

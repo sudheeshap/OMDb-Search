@@ -1,4 +1,4 @@
-@import "../../../scss/main";
+@import '../../../scss/main';
 
 header {
   background-color: $header-background;
@@ -24,9 +24,7 @@ header {
 }
 
 @media (min-width: $grid-tablet-breakpoint) {
-
   header {
-
     .logo {
       width: 180px;
     }
@@ -34,8 +32,15 @@ header {
 }
 
 @media (min-width: $grid-desktop-breakpoint) {
-
   .header-nav {
     padding: 0;
+  }
+}
+
+@media (min-width: 1200px) {
+  header {
+    .header-nav {
+      max-width: 1000px;
+    }
   }
 }
