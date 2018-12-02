@@ -2,8 +2,12 @@
 
 header {
   background-color: $header-background;
-  box-shadow: $header-shadow;
   height: 56px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 100;
 
   .header-nav {
     display: flex;

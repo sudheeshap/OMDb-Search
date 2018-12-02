@@ -1,20 +1,18 @@
-@import "../scss/main";
+@import '../scss/main';
 
 .page-content {
   max-width: 900px;
   padding: 0 10px;
-  margin-top: 20px;
+  margin-top: 76px;
 }
 
 @media (min-width: $grid-tablet-breakpoint) {
-
   .page-content {
-    margin: 30px auto 0 auto;
+    margin: 86px auto 0 auto;
   }
 }
 
 @media (min-width: 1200px) {
-
   .page-content {
     max-width: 1000px;
   }
